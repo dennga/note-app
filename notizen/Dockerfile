@@ -1,4 +1,4 @@
-# 1. Basis: Winziges Alpine Linux mit Java 17 Runtime (JRE)
+# 1. Basis: Winziges Alpine Linux mit Java 21 Runtime (JRE)
 # Wir brauchen kein JDK (Compiler) im Container, nur die JRE (Laufzeit). Das spart Platz.
 FROM eclipse-temurin:21-jre-alpine
 
