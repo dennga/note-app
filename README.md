@@ -1,28 +1,27 @@
-# 🚀 High-Performance Team Notizen App
+# 🚀  Team Notes App
 
-Eine Cloud-Native Webanwendung, entwickelt mit Fokus auf Performance, Thread-Safety und Clean Architecture.
+A cloud-native web application designed with a strong focus on performance, thread safety, and clean architecture.
 
 ## ✨ Features
 
-* **High Performance:** In-Memory Database (H2) und Server-Side Rendering für minimale Latenz.
-* **Concurrency:** Thread-sichere Implementierung für gleichzeitige Zugriffe.
-* **Modern UI:** GPU-beschleunigte CSS-Animationen ohne externe Frameworks (Zero-Bloat).
-* **Robustheit:** Fail-Fast Validierung und Exception Handling.
-* **DevOps Ready:** Docker-Containerisierung auf Basis von Alpine Linux.
+* **High Performance:** Utilizes an in-memory H2 database and server-side rendering (SSR) for minimal latency and fastest Time to First Byte (TTFB).
+* **Concurrency:** Thread-safe service implementation using `CopyOnWriteArrayList` (in-memory mode) or optimized JPA transactions for handling concurrent user requests.
+* **Modern UI:** Lightweight, GPU-accelerated CSS animations without heavy external frameworks (Zero-Bloat).
+* **Robustness:** Implements "Fail-Fast" validation logic and comprehensive exception handling.
+* **DevOps Ready:** Fully containerized using a minimalistic Alpine Linux Docker image.
 
 ## 🛠 Tech Stack
 
-* **Java 21** (LTS)
-* **Spring Boot 3** (Web, Data JPA, Validation)
-* **Thymeleaf** (Frontend)
-* **H2 Database** (SQL)
-* **Docker** (Infrastructure)
+* **Backend:** Java 21 (LTS), Spring Boot 3 (Web, Data JPA, Validation)
+* **Database:** H2 (Embedded SQL)
+* **Frontend:** Thymeleaf, CSS3 (Native)
+* **DevOps:** Docker, Maven
 
 ---
 
-## 📊 Architektur & Datenfluss
+## 📊 Architecture & Data Flow
 
-Das folgende Sequenzdiagramm zeigt den Weg einer Datenanfrage durch die Schichten (MVC-Pattern):
+The following sequence diagram illustrates the request lifecycle through the MVC layers:
 
 ```mermaid
 sequenceDiagram
@@ -34,8 +33,8 @@ sequenceDiagram
     participant Repo as NoteRepository
     participant DB as H2 Database
 
-    Note right of User: User erstellt neue Notiz
-    User->>Browser: Tippt Text & Klickt "Speichern"
+    Note right of User: User creates a new note
+    User->>Browser: Types text & clicks "Add"
     Browser->>Controller: POST /add (content="Meeting")
     
     activate Controller
@@ -47,7 +46,7 @@ sequenceDiagram
         Service->>Repo: save(new Note)
         activate Repo
         Repo->>DB: INSERT INTO note ...
-        DB-->>Repo: (Bestätigung)
+        DB-->>Repo: (Confirmation)
         deactivate Repo
     else Content is empty
         Service-->>Controller: (ignore / fail silent)
@@ -68,4 +67,4 @@ sequenceDiagram
     Service-->>Controller: List<Note>
     Controller-->>Browser: Render index.html
     deactivate Controller
-    Browser-->>User: Zeigt aktualisierte Liste
+    Browser-->>User: Displays updated list
