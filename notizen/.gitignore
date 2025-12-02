@@ -1,0 +1,19 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Eclipse & STS Metadaten (wollen wir nicht im Repo)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+# Logs & OS Junk
+*.log
+.DS_Store
+Thumbs.db

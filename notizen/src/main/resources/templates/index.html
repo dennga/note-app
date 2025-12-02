@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Notizen</title>
+    <style>
+        /* 	index.html (Thymeleaf Template)
+
+		    Server-side rendered view using Thymeleaf. 
+			Features high-performance, GPU-accelerated CSS animations 
+			and system fonts to minimize load times.
+        */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        /* Das Formular: Flexbox für perfektes Alignment */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            /* GPU-Optimierung für Hover-Effekte */
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Die Notiz-Liste */
+        .note-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .note-card {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            animation: slideIn 0.3s ease-out; /* Kleiner visueller Effekt */
+        }
+
+        .note-content {
+            font-size: 1.1em;
+            word-break: break-word; /* Verhindert Layout-Bruch bei langen Wörtern */
+        }
+
+        .meta {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 8px;
+            display: block;
+            text-align: right;
+        }
+
+        /* Keyframes für flüssiges Einblenden */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚀 Team Notizen</h1>
+
+        <form action="/add" method="post" class="input-group">
+            <input type="text" name="content" placeholder="Was gibt es Neues?" required autofocus autocomplete="off">
+            <button type="submit">Hinzufügen</button>
+        </form>
+
+        <div class="note-list">
+            <div th:each="note : ${notes}" class="note-card">
+                <div class="note-content" th:text="${note.content}">Inhalt</div>
+                <span class="meta" th:text="${#dates.format(new java.util.Date(note.timestamp), 'dd.MM.yyyy HH:mm')}">Datum</span>
+            </div>
+            
+            <div th:if="${notes.empty}" style="text-align: center; color: #888; margin-top: 2rem;">
+                <p>Noch keine Notizen. Sei der Erste! ✨</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
